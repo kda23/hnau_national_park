@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,22 @@ class CategoriesChild
      * @ORM\Column(type="string", length=255)
      */
     private $cat_id_parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
+     */
+    private $product;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CategoriesParent", inversedBy="categories_child")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category_parent;
+
+    public function __construct()
+    {
+        $this->product = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -119,6 +137,49 @@ class CategoriesChild
     public function setCatIdParent(string $cat_id_parent): self
     {
         $this->cat_id_parent = $cat_id_parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProduct(): Collection
+    {
+        return $this->product;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->product->contains($product)) {
+            $this->product[] = $product;
+            $product->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->product->contains($product)) {
+            $this->product->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getCategory() === $this) {
+                $product->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCategoryParent(): ?CategoriesParent
+    {
+        return $this->category_parent;
+    }
+
+    public function setCategoryParent(?CategoriesParent $category_parent): self
+    {
+        $this->category_parent = $category_parent;
 
         return $this;
     }

@@ -61,6 +61,17 @@ class Product
      */
     private $visinle;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CategoriesChild", inversedBy="product")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cart", inversedBy="products")
+     */
+    private $cart;
+
     public function getId()
     {
         return $this->id;
@@ -170,6 +181,30 @@ class Product
     public function setVisinle(int $visinle): self
     {
         $this->visinle = $visinle;
+
+        return $this;
+    }
+
+    public function getCategory(): ?CategoriesChild
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?CategoriesChild $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): self
+    {
+        $this->cart = $cart;
 
         return $this;
     }
