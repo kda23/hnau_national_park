@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,15 +19,15 @@ class Cart
     /**
      * @ORM\Column(type="integer")
      */
-    private $cart_id_product;
+    private $cart_id_products;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $cart_price;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $cart_count;
 
@@ -39,38 +37,33 @@ class Cart
     private $cart_datatime;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=300)
      */
     private $user_name;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $adress;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $post_index;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="cart")
-     */
-    private $products;
-
-    public function __construct()
-    {
-        $this->products = new ArrayCollection();
-    }
-
     public function getId()
     {
         return $this->id;
     }
 
-    public function getCartIdProduct(): ?int
+    public function getCartIdProducts(): ?int
     {
-        return $this->cart_id_product;
+        return $this->cart_id_products;
     }
 
-    public function setCartIdProduct(int $cart_id_product): self
+    public function setCartIdProducts(int $cart_id_products): self
     {
-        $this->cart_id_product = $cart_id_product;
+        $this->cart_id_products = $cart_id_products;
 
         return $this;
     }
@@ -80,7 +73,7 @@ class Cart
         return $this->cart_price;
     }
 
-    public function setCartPrice(int $cart_price): self
+    public function setCartPrice(?int $cart_price): self
     {
         $this->cart_price = $cart_price;
 
@@ -92,7 +85,7 @@ class Cart
         return $this->cart_count;
     }
 
-    public function setCartCount(?int $cart_count): self
+    public function setCartCount(int $cart_count): self
     {
         $this->cart_count = $cart_count;
 
@@ -116,9 +109,21 @@ class Cart
         return $this->user_name;
     }
 
-    public function setUserName(?string $user_name): self
+    public function setUserName(string $user_name): self
     {
         $this->user_name = $user_name;
+
+        return $this;
+    }
+
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(?string $adress): self
+    {
+        $this->adress = $adress;
 
         return $this;
     }
@@ -131,37 +136,6 @@ class Cart
     public function setPostIndex(?int $post_index): self
     {
         $this->post_index = $post_index;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Product[]
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->setCart($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            // set the owning side to null (unless already changed)
-            if ($product->getCart() === $this) {
-                $product->setCart(null);
-            }
-        }
 
         return $this;
     }

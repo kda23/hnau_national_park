@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoriesChildRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  */
-class CategoriesChild
+class Categories
 {
     /**
      * @ORM\Id()
@@ -17,11 +17,6 @@ class CategoriesChild
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $cat_id;
 
     /**
      * @ORM\Column(type="text")
@@ -44,41 +39,23 @@ class CategoriesChild
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $cat_id_parent;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category")
      */
-    private $product;
+    private $products;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\CategoriesParent", inversedBy="categories_child")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $category_parent;
+    private $slug;
 
     public function __construct()
     {
-        $this->product = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getCatId(): ?string
-    {
-        return $this->cat_id;
-    }
-
-    public function setCatId(string $cat_id): self
-    {
-        $this->cat_id = $cat_id;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -129,30 +106,18 @@ class CategoriesChild
         return $this;
     }
 
-    public function getCatIdParent(): ?string
-    {
-        return $this->cat_id_parent;
-    }
-
-    public function setCatIdParent(string $cat_id_parent): self
-    {
-        $this->cat_id_parent = $cat_id_parent;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Product[]
      */
-    public function getProduct(): Collection
+    public function getProducts(): Collection
     {
-        return $this->product;
+        return $this->products;
     }
 
     public function addProduct(Product $product): self
     {
-        if (!$this->product->contains($product)) {
-            $this->product[] = $product;
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
             $product->setCategory($this);
         }
 
@@ -161,8 +126,8 @@ class CategoriesChild
 
     public function removeProduct(Product $product): self
     {
-        if ($this->product->contains($product)) {
-            $this->product->removeElement($product);
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
             // set the owning side to null (unless already changed)
             if ($product->getCategory() === $this) {
                 $product->setCategory(null);
@@ -172,16 +137,15 @@ class CategoriesChild
         return $this;
     }
 
-    public function getCategoryParent(): ?CategoriesParent
+    public function getSlug(): ?string
     {
-        return $this->category_parent;
+        return $this->slug;
     }
 
-    public function setCategoryParent(?CategoriesParent $category_parent): self
+    public function setSlug(string $slug): self
     {
-        $this->category_parent = $category_parent;
+        $this->slug = $slug;
 
         return $this;
     }
-
 }

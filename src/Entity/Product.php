@@ -17,7 +17,7 @@ class Product
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="text")
      */
     private $name;
 
@@ -34,7 +34,17 @@ class Product
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    private $mini_content;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
     private $content;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
@@ -42,35 +52,20 @@ class Product
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $image;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $cat;
-
-    /**
-     * @ORM\Column(type="string", length=500, nullable=true)
-     */
-    private $mini_content;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $visinle;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\CategoriesChild", inversedBy="product")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categories", inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cart", inversedBy="products")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $cart;
+    private $slug;
 
     public function getId()
     {
@@ -113,6 +108,18 @@ class Product
         return $this;
     }
 
+    public function getMiniContent(): ?string
+    {
+        return $this->mini_content;
+    }
+
+    public function setMiniContent(?string $mini_content): self
+    {
+        $this->mini_content = $mini_content;
+
+        return $this;
+    }
+
     public function getContent(): ?string
     {
         return $this->content;
@@ -121,6 +128,18 @@ class Product
     public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): self
+    {
+        $this->visible = $visible;
 
         return $this;
     }
@@ -149,64 +168,27 @@ class Product
         return $this;
     }
 
-    public function getCat(): ?string
-    {
-        return $this->cat;
-    }
-
-    public function setCat(string $cat): self
-    {
-        $this->cat = $cat;
-
-        return $this;
-    }
-
-    public function getMiniContent(): ?string
-    {
-        return $this->mini_content;
-    }
-
-    public function setMiniContent(?string $mini_content): self
-    {
-        $this->mini_content = $mini_content;
-
-        return $this;
-    }
-
-    public function getVisinle(): ?int
-    {
-        return $this->visinle;
-    }
-
-    public function setVisinle(int $visinle): self
-    {
-        $this->visinle = $visinle;
-
-        return $this;
-    }
-
-    public function getCategory(): ?CategoriesChild
+    public function getCategory(): ?Categories
     {
         return $this->category;
     }
 
-    public function setCategory(?CategoriesChild $category): self
+    public function setCategory(?Categories $category): self
     {
         $this->category = $category;
 
         return $this;
     }
 
-    public function getCart(): ?Cart
+    public function getSlug(): ?string
     {
-        return $this->cart;
+        return $this->slug;
     }
 
-    public function setCart(?Cart $cart): self
+    public function setSlug(?string $slug): self
     {
-        $this->cart = $cart;
+        $this->slug = $slug;
 
         return $this;
     }
-
 }
