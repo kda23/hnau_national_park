@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\CategoriesChild;
+use App\Entity\Categories;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method CategoriesChild|null find($id, $lockMode = null, $lockVersion = null)
- * @method CategoriesChild|null findOneBy(array $criteria, array $orderBy = null)
- * @method CategoriesChild[]    findAll()
- * @method CategoriesChild[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Categories|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Categories|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Categories[]    findAll()
+ * @method Categories[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoriesChildRepository extends ServiceEntityRepository
+class CategoriesRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, CategoriesChild::class);
+        parent::__construct($registry, Categories::class);
     }
 
 //    /**
-//     * @return CategoriesChild[] Returns an array of CategoriesChild objects
+//     * @return Categories[] Returns an array of Categories objects
 //     */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class CategoriesChildRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?CategoriesChild
+    public function findOneBySomeField($value): ?Categories
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
