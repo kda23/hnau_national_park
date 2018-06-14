@@ -48,6 +48,14 @@ class Categories
      */
     private $slug;
 
+    /**
+     * @param mixed $id
+     */
+    public function __toString()
+    {
+        return $this->title ? $this->title : 'NEW';
+    }
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
