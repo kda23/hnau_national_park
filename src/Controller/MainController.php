@@ -12,7 +12,7 @@ use App\Entity\Product;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class ServicesController extends Controller
+class MainController extends Controller
 {
     /**
      * @Route("/services", name="services")
@@ -46,7 +46,7 @@ class ServicesController extends Controller
 //    }
 
     /**
-     * @Route("/{categorySlug}")
+     * @Route("/{categorySlug}", name="category")
      * @ParamConverter("category", options={"mapping": {"categorySlug" : "slug"}})
      */
     public function category(Categories $category)
