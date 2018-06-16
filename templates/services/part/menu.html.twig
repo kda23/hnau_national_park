@@ -1,0 +1,26 @@
+<ul class="cat_menu">
+    {% for firstLevelCat in categories %}
+        {% if firstLevelCat.children %}
+            <li>
+                <a>{{ firstLevelCat.name|capitalize }}</a>
+                <ul>
+                    {% for secondLevelCat in firstLevelCat.children %}
+                        {% if secondLevelCat.children %}
+                            <li>
+                                <a>{{ secondLevelCat.name|capitalize }}</a>
+                                <ul>
+                                    {% for thirdLevelCat in secondLevelCat.children %}
+                                    {% if secondLevelCat.children %}
+                                    <li>
+                                        <a>{{ thirdLevelCat.name|capitalize }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
