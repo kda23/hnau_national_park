@@ -71,4 +71,10 @@ class MainController extends Controller
             'product' => $product,
         ]);
     }
+
+    public function menu(CategoriesRepository $categoriesRepository)
+    {
+        $categories = $categoriesRepository->findBy(['parent' => null ]);
+        return $this->render('services/part/menu.html.twig', compact('categories'));
+    }
 }
