@@ -49,6 +49,20 @@ class Categories
     private $slug;
 
     /**
+     * @var Categories
+     *
+     * @ORM\ManyToOne(targetEntity="Categories", inversedBy="children")
+     */
+    private $parent;
+
+    /**
+     * @var Categories[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Categories", mappedBy="parent")
+     */
+    private $children;
+
+    /**
      * @param mixed $id
      */
     public function __toString()
@@ -59,6 +73,31 @@ class Categories
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->children = new ArrayCollection();
+    }
+
+    /**
+     * @return Categories
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param ArrayCollection $children
+     */
+    public function setChildren($children)
+    {
+        $this->children = $children;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 
     public function getId()
